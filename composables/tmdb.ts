@@ -110,6 +110,10 @@ export function getTvShowEpisodes(id: string, season: string) {
   return fetchTMDB(`tv/${id}/season/${season}`)
 }
 
+export function getMoiveDetails(id: string) {
+  return fetchTMDB(`movie/${id}`)
+}
+
 /**
  * Get trending
  */

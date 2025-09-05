@@ -11,10 +11,16 @@ function play() {
 }
 
 const episodeData = ref<any>(null)
+const movieData = ref<any>(null)
 const thumbnailUrl = computed(() => {
   if (props.item.type === 'VidlinkTV') {
     if (episodeData.value?.still_path)
       return `https://image.tmdb.org/t/p/w500${episodeData.value.still_path}`
+    return null
+  }
+  else if (props.item.type === 'VidlinkMovie') {
+    if (movieData.value?.poster_path)
+      return `https://image.tmdb.org/t/p/w500${movieData.value.poster_path}`
     return null
   }
   return `/youtube/vi/${props.item.key}/maxresdefault.jpg`
@@ -30,6 +36,15 @@ async function fetchEpisodeData() {
     }
     catch (error) {
       console.error('获取剧集信息失败:', error)
+    }
+  }
+  else if (props.item.type === 'VidlinkMovie') {
+    try {
+      const movie = await getMoiveDetails(props.item.id)
+      movieData.value = movie
+    }
+    catch (error) {
+      console.error('获取电影信息失败:', error)
     }
   }
 }

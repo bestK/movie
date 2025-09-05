@@ -14,13 +14,18 @@ function createBaseVideo(id: string | number): Omit<Video, 'name' | 'key' | 'typ
 }
 
 // 处理电影视频
-function createMovieVideo(item: Media): Video {
-  return {
+function createMovieVideo(item: Media): Video[] {
+  // 检查是否已存在 VidlinkMovie 类型的视频
+  const existingMovie = item.videos?.results?.find(v => v.type === 'VidlinkMovie')
+  if (existingMovie)
+    return []
+
+  return [{
     ...createBaseVideo(item.id),
     name: 'Vidlink',
     key: `${item.id}`,
     type: 'VidlinkMovie',
-  }
+  }]
 }
 
 // 处理电视剧视频
@@ -75,7 +80,7 @@ export function vidlink(item: Media): void {
 
   const videos = item.number_of_seasons
     ? createTVVideos(item)
-    : [createMovieVideo(item)]
+    : createMovieVideo(item)
 
   mergeVideoResults(item, videos)
 }
