@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Video } from '~/types'
+import type { Video } from '~/types';
 
 const props = defineProps<{
   item: Video
@@ -9,6 +9,35 @@ const showModal = useIframeModal()
 function play() {
   return showModal(getVideoLink(props.item)!)
 }
+
+const episodeData = ref<any>(null)
+const thumbnailUrl = computed(() => {
+  if (props.item.type === 'VidlinkTV') {
+    if (episodeData.value?.still_path)
+      return `https://image.tmdb.org/t/p/w500${episodeData.value.still_path}`
+    return null
+  }
+  return `/youtube/vi/${props.item.key}/maxresdefault.jpg`
+})
+
+// 获取电视剧集信息
+async function fetchEpisodeData() {
+  if (props.item.type === 'VidlinkTV') {
+    const [season, episode] = [props.item.number_of_seasons!.toString(), props.item.number_of_episodes!.toString()]
+    try {
+      const seasonData = await getTvShowEpisodes(props.item.id, season)
+      episodeData.value = seasonData.episodes[Number(episode) - 1]
+    }
+    catch (error) {
+      console.error('获取剧集信息失败:', error)
+    }
+  }
+}
+
+// 在组件挂载时获取剧集信息
+onMounted(() => {
+  fetchEpisodeData()
+})
 </script>
 
 <template>
@@ -21,7 +50,8 @@ function play() {
       data-testid="video-thumbnail"
     >
       <NuxtImg
-        :src="`/youtube/vi/${item.key}/maxresdefault.jpg`"
+        v-if="thumbnailUrl"
+        :src="thumbnailUrl"
         width="400"
         height="600"
         format="webp"
@@ -29,6 +59,9 @@ function play() {
         w-full h-full object-cover
         data-testid="video-image"
       />
+      <div v-else class="w-full h-full flex items-center justify-center bg-gray-800">
+        <div i-ph-image-square ma text-3xl op50 />
+      </div>
       <div flex w-full h-full absolute inset-0 op20 hover:op100 transition>
         <div i-ph-play ma text-3xl data-testid="play-icon" />
       </div>

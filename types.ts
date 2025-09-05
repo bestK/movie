@@ -40,6 +40,8 @@ export interface Media {
   external_ids?: ExternalIds
   // cast
   character?: string
+  number_of_episodes?: number
+  number_of_seasons?: number
 }
 
 export interface Person {
@@ -83,6 +85,8 @@ export interface Video {
   official: boolean
   published_at: string
   id: string
+  number_of_seasons?: number
+  number_of_episodes?: number
 }
 
 export interface Image {

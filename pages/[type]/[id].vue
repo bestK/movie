@@ -16,6 +16,9 @@ const [item, recommendations] = await Promise.all([
   getMedia(type.value, id.value),
   getRecommendations(type.value, id.value),
 ])
+
+vidlink(item)
+
 const $img = useImage()
 
 useHead({

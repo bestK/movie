@@ -9,6 +9,13 @@ export function getTrailer(item: Media) {
 export function getVideoLink(item?: Video) {
   if (!item?.key)
     return null
+  if (item.type === 'VidlinkMovie') {
+    return `https://vidlink.pro/movie/${item.id}`
+  }
+  else if (item.type === 'VidlinkTV') {
+    return `https://vidlink.pro/tv/${item.id}/${item.key}`
+  }
+
   return `https://www.youtube.com/embed/${item.key}?rel=0&showinfo=0&autoplay=0`
 }
 
@@ -26,5 +33,6 @@ export {
   provideIframeModal,
   provideImageModal,
   useIframeModal,
-  useImageModal,
+  useImageModal
 }
+
