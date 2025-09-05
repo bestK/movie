@@ -8,6 +8,7 @@ export default defineNitroConfig({
   runtimeConfig: {
     tmdb: {
       apiKey: process.env.TMDB_API_KEY || '',
+      accessToken: process.env.TMDB_ACCESS_TOKEN || '',
     },
   },
 

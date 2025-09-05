@@ -15,6 +15,14 @@ export default defineEventHandler(async (event) => {
   if (!config.tmdb.apiKey)
     throw new Error('TMDB API key is not set')
   try {
+    const headers = {
+      Accept: 'application/json',
+    } as Record<string, string>
+
+    if (config.tmdb.accessToken) {
+      headers.Authorization = `Bearer ${config.tmdb.accessToken}`
+    }
+
     return await $fetch(event.context.params!.path, {
       baseURL: TMDB_API_URL,
       params: {
@@ -22,9 +30,7 @@ export default defineEventHandler(async (event) => {
         language: 'en-US',
         ...query,
       },
-      headers: {
-        Accept: 'application/json',
-      },
+      headers,
     })
   }
   catch (e: any) {
