@@ -3,7 +3,7 @@ import process from 'node:process'
 const isDev = process.env.NODE_ENV === 'development'
 
 // const apiBaseUrl = 'http://localhost:3001'
-const apiBaseUrl = 'https://movies-proxy.vercel.app'
+const apiBaseUrl = 'https://tmdb.1995kaikai.workers.dev'
 
 export default defineNuxtConfig({
   modules: ['@vueuse/nuxt', '@unocss/nuxt', '@nuxt/image', '@nuxtjs/i18n', '@nuxtjs/html-validator', '@nuxt/test-utils/module'],
