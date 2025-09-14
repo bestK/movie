@@ -5,6 +5,7 @@ import type { Credits, Media, MediaType, PageResult, Person } from '~/types'
 // const apiBaseUrl = 'http://localhost:3001'
 // const apiBaseUrl = 'https://movies-proxy.vercel.app'
 const apiBaseUrl = 'https://tmdb.linkof.link'
+
 const promiseCache = new LRUCache<string, any>({
   max: 500,
   ttl: 2000 * 60 * 60, // 2 hour
